@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import Header from './Header/Header';
-import PlayerTable from './PlayerTable/PlayerTable';
+import Header from './components/Header/Header';
+import PlayerTable from './components/PlayerTable/PlayerTable';
 
 const App = () => {
   return (

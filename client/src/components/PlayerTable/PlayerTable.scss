@@ -1,0 +1,41 @@
+@import '../../scss/variables';
+
+$header-height: 3.5rem;
+
+.player-table {
+  padding-top: calc(#{$header-height} + 1px); // 1px for border of header
+}
+
+.country {
+  align-items: center;
+  display: flex;
+  height: 100%;
+
+  .avatar {
+    margin-right: 0.5rem;
+  }
+}
+
+// CODE CHALLENGE
+
+.Table__Player {
+  display: flex;
+  align-items: center;
+  .Table__Player_Name {
+    margin-left: 10px;
+  }
+}
+
+.Actions__Icon {
+  font-size: 2em;
+  color: #7f7f7f;
+  cursor: pointer;
+}
+
+.Header__Custom {
+  display: flex;
+  align-items: center;
+  .Actions__Icon {
+    margin-left: 5px;
+  }
+}

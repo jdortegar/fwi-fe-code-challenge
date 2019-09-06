@@ -1,4 +1,4 @@
-@import 'variables';
+@import '../../scss/variables';
 
 $avatar-size: 2.5rem;
 
@@ -13,5 +13,13 @@ $avatar-size: 2.5rem;
   img {
     height: auto;
     width: 100%;
+  }
+
+  &.Avatar__Flag {
+    justify-content: center;
+    img {
+      height: 100%;
+      width: auto;
+    }
   }
 }
