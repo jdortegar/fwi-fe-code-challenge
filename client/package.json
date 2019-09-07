@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.23.0",
+    "lodash": "^4.17.15",
     "node-sass": "^4.12.0",
     "rc-form-hooks": "^0.0.1-alpha.22",
     "react": "^16.8.4",

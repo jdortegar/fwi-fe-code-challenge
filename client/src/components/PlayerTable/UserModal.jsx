@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form, Input, InputNumber, Select } from 'antd';
+import { Modal, Form, Input, InputNumber, Select, message } from 'antd';
 import useForm from 'rc-form-hooks';
-import { bindActionCreators } from 'redux';
-import { connectAdvanced } from 'react-redux';
 
 import { COUNTRIES } from '../../constants';
 
 import './PlayerTable.scss';
 
-const UserModal = ({ visible, action, user, handleCancel }) => {
+const UserModal = ({
+  visible,
+  action,
+  user,
+  handleCancel,
+  addPlayerSuccess,
+}) => {
   // Set state function
   const [state, setState] = useState({
     confirmLoading: false,
@@ -44,6 +48,9 @@ const UserModal = ({ visible, action, user, handleCancel }) => {
           .then(data => {
             setState({ confirmLoading: false });
             if (data) {
+              addPlayerSuccess(data);
+              handleCancel();
+              message.success('New user created successfully.');
               return data;
             }
             throw new Error(data.message);
@@ -84,7 +91,9 @@ const UserModal = ({ visible, action, user, handleCancel }) => {
                 {Object.keys(COUNTRIES)
                   .sort()
                   .map(country => (
-                    <Option value={country}>{COUNTRIES[country]}</Option>
+                    <Option value={country} key={country}>
+                      {COUNTRIES[country]}
+                    </Option>
                   ))}
               </Select>
             )}

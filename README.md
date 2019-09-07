@@ -124,7 +124,7 @@ added any additional steps.
 
 ### Challenge Checklist
 
-- [ ] Create Player
+- [x] Create Player
 - [ ] Modify Player
 - [ ] Delete Player
 - [ ] Implement sorting (optional)

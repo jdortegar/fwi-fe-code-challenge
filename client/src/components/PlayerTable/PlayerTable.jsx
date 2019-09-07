@@ -5,12 +5,13 @@ import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'shallowequal';
 import { Table, Divider, Icon } from 'antd';
 import Flags from 'react-world-flags';
+import { isEqual } from 'lodash';
 
 import { COUNTRIES } from '../../constants';
 import UserModal from './UserModal';
 import Avatar from '../Avatar/Avatar';
 
-import { fetchPlayersSuccess } from '../../appState/actions';
+import { fetchPlayersSuccess, addPlayerSuccess } from '../../appState/actions';
 
 import './PlayerTable.scss';
 
@@ -26,6 +27,7 @@ class PlayerTable extends PureComponent {
       })
     ).isRequired,
     fetchPlayersSuccess: PropTypes.func.isRequired,
+    addPlayerSuccess: PropTypes.func.isRequired,
   };
 
   state = { loading: true, showUserModal: false, action: 'Add' };
@@ -145,6 +147,7 @@ class PlayerTable extends PureComponent {
           visible={showUserModal}
           action={action}
           handleCancel={() => this.setState({ showUserModal: false })}
+          addPlayerSuccess={this.props.addPlayerSuccess}
         />
       </div>
     );
@@ -153,11 +156,15 @@ class PlayerTable extends PureComponent {
 
 export default connectAdvanced(dispatch => {
   let result;
-  const actions = bindActionCreators({ fetchPlayersSuccess }, dispatch);
+  const actions = bindActionCreators(
+    { fetchPlayersSuccess, addPlayerSuccess },
+    dispatch
+  );
 
   return (state, props) => {
     const players = state.playerIds.map(id => state.players[id]);
 
+    debugger;
     const nextResult = { ...props, ...actions, players };
 
     if (!shallowEqual(result, nextResult)) {
