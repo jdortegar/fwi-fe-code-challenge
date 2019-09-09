@@ -1926,6 +1926,11 @@ async-limiter@~1.0.0:
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
   integrity sha512-jp/uFnooOiO+L211eZOoSyzpOITMXx1rBITauYykG3BRYPu8h0UcxsPNB04RR5vo4Tyz3+ay17tR6JVf9qzYWg==
 
+async-validator@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-2.0.1.tgz#2ab03b1062b5bc727de9229aeeba4dc43f36de24"
+  integrity sha512-sQkJ7Vjgvu9pGCRtDw9CIPuMFstOPtMiMoHqDI3m5xUQhHnHrn/YPBp583IYUaLZi9jW8icGjLlodH0BHSkzeg==
+
 async-validator@~1.11.3:
   version "1.11.5"
   resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-1.11.5.tgz#9d43cf49ef6bb76be5442388d19fb9a6e47597ea"
@@ -6562,7 +6567,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
-lodash@^4.16.5, lodash@^4.17.13, lodash@^4.17.4:
+lodash@^4.16.5, lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.4:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -8891,6 +8896,13 @@ rc-editor-mention@^1.1.13:
     prop-types "^15.5.8"
     rc-animate "^2.3.0"
     rc-editor-core "~0.8.3"
+
+rc-form-hooks@^0.0.1-alpha.22:
+  version "0.0.1-alpha.22"
+  resolved "https://registry.yarnpkg.com/rc-form-hooks/-/rc-form-hooks-0.0.1-alpha.22.tgz#0853893afcb0e1d8d6670fe3c52ac1ca2cf18d0b"
+  integrity sha512-1UCFiiemoBx2Fd93IHr3nM4BWon2speWs29G667YMPENU5qSXZtvbPDKlOMK5spRtcId89JaUhK52mwzqU2OoA==
+  dependencies:
+    async-validator "^2.0.1"
 
 rc-form@^2.4.5:
   version "2.4.8"

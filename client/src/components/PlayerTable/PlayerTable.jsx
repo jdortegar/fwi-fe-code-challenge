@@ -5,6 +5,7 @@ import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'shallowequal';
 import { Table, Divider, Icon, Popconfirm, message } from 'antd';
 import Flags from 'react-world-flags';
+import 'antd/dist/antd.css';
 
 import { COUNTRIES } from '../../constants';
 import UserModal from './UserModal';
@@ -70,6 +71,7 @@ class PlayerTable extends PureComponent {
       title: 'Player',
       dataIndex: 'name',
       key: 'name',
+      width: 400,
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (name, user) => (
         <div className="Table__Player">
@@ -176,7 +178,12 @@ class PlayerTable extends PureComponent {
     const { players, addPlayerSuccess, editPlayerSuccess } = this.props;
     const { loading, showUserModal, action, userToEdit } = this.state;
     return (
-      <div>
+      <div
+        id="player-table-grid"
+        role="grid"
+        aria-label="Poker Players"
+        className="player-table"
+      >
         <Table
           columns={this.columns}
           dataSource={players}
