@@ -125,10 +125,10 @@ added any additional steps.
 ### Challenge Checklist
 
 - [x] Create Player
-- [ ] Modify Player
-- [ ] Delete Player
-- [ ] Implement sorting (optional)
-- [ ] Lazy loading/pagination (optional)
+- [x] Modify Player
+- [x] Delete Player
+- [x] Implement sorting (optional)
+- [x] Lazy loading/pagination (optional)
 - [ ] Tests (optional)
 
 ## API Documentation

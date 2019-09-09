@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'shallowequal';
-import { Table, Divider, Icon } from 'antd';
+import { Table, Divider, Icon, Popconfirm, message } from 'antd';
 import Flags from 'react-world-flags';
-import { isEqual } from 'lodash';
 
 import { COUNTRIES } from '../../constants';
 import UserModal from './UserModal';
 import Avatar from '../Avatar/Avatar';
 
-import { fetchPlayersSuccess, addPlayerSuccess } from '../../appState/actions';
+import {
+  fetchPlayersSuccess,
+  addPlayerSuccess,
+  editPlayerSuccess,
+  deletePlayerSuccess,
+} from '../../appState/actions';
 
 import './PlayerTable.scss';
 
@@ -28,9 +32,16 @@ class PlayerTable extends PureComponent {
     ).isRequired,
     fetchPlayersSuccess: PropTypes.func.isRequired,
     addPlayerSuccess: PropTypes.func.isRequired,
+    editPlayerSuccess: PropTypes.func.isRequired,
+    deletePlayerSuccess: PropTypes.func.isRequired,
   };
 
-  state = { loading: true, showUserModal: false, action: 'Add' };
+  state = {
+    loading: true,
+    showUserModal: false,
+    action: 'Add',
+    userToEdit: {},
+  };
 
   componentDidMount() {
     const { fetchPlayersSuccess } = this.props;
@@ -99,21 +110,31 @@ class PlayerTable extends PureComponent {
       title: (
         <div className="Header__Custom">
           Actions
-          <div className="Actions__Icon" onClick={() => this.addUser()}>
+          <div className="Actions__Icon" onClick={() => this.modifyUser('Add')}>
             <Icon type="user-add" />
           </div>
         </div>
       ),
       key: 'actions',
-      render: id => (
+      render: user => (
         <span>
-          <a className="Actions__Icon">
+          <span
+            className="Actions__Icon"
+            onClick={() => this.modifyUser('Edit', user)}
+          >
             <Icon type="edit" />
-          </a>
+          </span>
           <Divider type="vertical" />
-          <a className="Actions__Icon">
-            <Icon type="user-delete" />
-          </a>
+          <Popconfirm
+            title="Are you sure delete this User?"
+            onConfirm={() => this.handleDeleteUser(user)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <span className="Actions__Icon">
+              <Icon type="user-delete" />
+            </span>
+          </Popconfirm>
         </span>
       ),
     },
@@ -121,18 +142,45 @@ class PlayerTable extends PureComponent {
 
   // Custom Functions
 
-  addUser = () => {
-    this.setState({ action: 'Add', showUserModal: true });
+  modifyUser = (action, user) => {
+    if (action === 'Add') {
+      this.setState({ action, showUserModal: true });
+    } else if (action === 'Edit') {
+      this.setState({
+        action,
+        showUserModal: true,
+        userToEdit: user,
+      });
+    }
+  };
+
+  handleDeleteUser = user => {
+    const { deletePlayerSuccess } = this.props;
+    fetch(`http://localhost:3001/players/${user.id}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'DELETE',
+    }).then(response => {
+      if (response.status === 204) {
+        deletePlayerSuccess(user);
+        message.success('User deleted successfully.');
+        return response;
+      }
+      throw new Error(response.data.message);
+    });
   };
 
   render() {
-    const { players } = this.props;
-    const { loading, showUserModal, action } = this.state;
+    const { players, addPlayerSuccess, editPlayerSuccess } = this.props;
+    const { loading, showUserModal, action, userToEdit } = this.state;
     return (
       <div>
         <Table
           columns={this.columns}
           dataSource={players}
+          rowKey="id"
           loading={loading}
           scroll={{ y: '80vh' }}
           onHeaderRow={column => {
@@ -146,8 +194,10 @@ class PlayerTable extends PureComponent {
         <UserModal
           visible={showUserModal}
           action={action}
-          handleCancel={() => this.setState({ showUserModal: false })}
-          addPlayerSuccess={this.props.addPlayerSuccess}
+          closeModal={() => this.setState({ showUserModal: false })}
+          addPlayerSuccess={addPlayerSuccess}
+          editPlayerSuccess={editPlayerSuccess}
+          user={userToEdit}
         />
       </div>
     );
@@ -157,14 +207,18 @@ class PlayerTable extends PureComponent {
 export default connectAdvanced(dispatch => {
   let result;
   const actions = bindActionCreators(
-    { fetchPlayersSuccess, addPlayerSuccess },
+    {
+      fetchPlayersSuccess,
+      addPlayerSuccess,
+      editPlayerSuccess,
+      deletePlayerSuccess,
+    },
     dispatch
   );
 
   return (state, props) => {
     const players = state.playerIds.map(id => state.players[id]);
 
-    debugger;
     const nextResult = { ...props, ...actions, players };
 
     if (!shallowEqual(result, nextResult)) {
